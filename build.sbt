@@ -1,5 +1,5 @@
-name := "gitbucket-helloworld-plugin"
-organization := "io.github.gitbucket"
+name := "gitbucket-topic-plugin"
+organization := "io.github.shinyan1806"
 version := "1.0.0"
 scalaVersion := "2.13.18"
 gitbucketVersion := "4.46.0"

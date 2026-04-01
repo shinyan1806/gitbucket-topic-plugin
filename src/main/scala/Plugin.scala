@@ -1,14 +1,13 @@
-import gitbucket.core.controller.ControllerBase
-import io.github.gitbucket.helloworld.controller.HelloWorldController
+import io.github.gitbucket.solidbase.migration.LiquibaseMigration
 import io.github.gitbucket.solidbase.model.Version
 
 class Plugin extends gitbucket.core.plugin.Plugin {
-  override val pluginId: String = "helloworld"
-  override val pluginName: String = "HelloWorld Plugin"
-  override val description: String = "First example of GitBucket plug-in"
-  override val versions: List[Version] = List(new Version("1.0.0"))
-
-  override val controllers: Seq[(String, ControllerBase)] = Seq(
-    "/*" -> new HelloWorldController()
+  override val pluginId: String = "topic"
+  override val pluginName: String = "Topic Plugin"
+  override val description: String = "Repository topic feature for GitBucket."
+  override val versions: List[Version] = List(
+    new Version("1.0.0",
+      new LiquibaseMigration("update/gitbucket-topic_1.0.xml")
+    )
   )
 }

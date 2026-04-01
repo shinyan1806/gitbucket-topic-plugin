@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changeSet>
+  <!--================================================================================================-->
+  <!-- TOPIC -->
+  <!--================================================================================================-->
+  <createTable tableName="TOPIC">
+    <column name="TOPIC_ID" type="INT" autoIncrement="true" nullable="false"/>
+    <column name="NAME" type="VARCHAR(50)" nullable="false"/>
+  </createTable>
+
+  <addPrimaryKey constraintName="PK_TOPIC" tableName="TOPIC" columnNames="TOPIC_ID"/>
+  <addUniqueConstraint constraintName="UQ_TOPIC_NAME" tableName="TOPIC" columnNames="NAME"/>
+
+  <!--================================================================================================-->
+  <!-- REPOSITORY_TOPIC -->
+  <!--================================================================================================-->
+  <createTable tableName="REPOSITORY_TOPIC">
+    <column name="USER_NAME" type="VARCHAR(100)" nullable="false"/>
+    <column name="REPOSITORY_NAME" type="VARCHAR(100)" nullable="false"/>
+    <column name="TOPIC_ID" type="INT" nullable="false"/>
+  </createTable>
+
+  <addPrimaryKey constraintName="PK_REPOSITORY_TOPIC" tableName="REPOSITORY_TOPIC" columnNames="USER_NAME,REPOSITORY_NAME,TOPIC_ID"/>
+
+  <createIndex indexName="IDX_REPOSITORY_TOPIC_TOPIC_ID" tableName="REPOSITORY_TOPIC">
+    <column name="TOPIC_ID"/>
+  </createIndex>
+
+  <addForeignKeyConstraint constraintName="FK_REPOSITORY_TOPIC_TOPIC" baseTableName="REPOSITORY_TOPIC" baseColumnNames="TOPIC_ID" referencedTableName="TOPIC" referencedColumnNames="TOPIC_ID" onDelete="CASCADE"/>
+  <addForeignKeyConstraint constraintName="FK_REPOSITORY_TOPIC_REPOSITORY" baseTableName="REPOSITORY_TOPIC" baseColumnNames="USER_NAME,REPOSITORY_NAME" referencedTableName="REPOSITORY" referencedColumnNames="USER_NAME,REPOSITORY_NAME" onDelete="CASCADE"/>
+
+</changeSet>
