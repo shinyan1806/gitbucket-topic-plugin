@@ -14,28 +14,10 @@ class TopicController extends ControllerBase
 	with RepositoryService
 	with AccountService
 	with TopicService
-	with WritableUsersAuthenticator {
+	with WritableUsersAuthenticator
+	with JsonHelper {
 
 	val PageSize = 25
-
-	private def toJsonStringArray(values: Seq[String]): String =
-		values.map(v => "\"" + escapeJson(v) + "\"").mkString("[", ",", "]")
-
-	private def escapeJson(value: String): String = {
-		val sb = new StringBuilder(value.length)
-		value.foreach {
-			case '"'  => sb.append("\\\"")
-			case '\\' => sb.append("\\\\")
-			case '\b' => sb.append("\\b")
-			case '\f' => sb.append("\\f")
-			case '\n' => sb.append("\\n")
-			case '\r' => sb.append("\\r")
-			case '\t' => sb.append("\\t")
-			case c if c < ' ' => sb.append(f"\\u${c.toInt}%04x")
-			case c => sb.append(c)
-		}
-		sb.toString()
-	}
 
 	get("/topics") {
 		val selectedTopic = params.get("topic").filter(_.nonEmpty)

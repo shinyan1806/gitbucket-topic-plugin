@@ -1,0 +1,30 @@
+@(repository: gitbucket.core.service.RepositoryService.RepositoryInfo
+)(implicit context: gitbucket.core.controller.Context)
+
+<link href="@context.path/plugin-assets/topic/style.css" rel="stylesheet"/>
+<script src="@context.path/plugin-assets/topic/script.js"></script>
+
+<span class="topic-dropdown"
+     data-owner="@repository.owner"
+     data-repo="@repository.name"
+     data-path="@context.path">
+  <button class="btn btn-default btn-sm topic-dropdown-toggle" type="button">
+    <i class="octicon octicon-tag"></i>
+    <span class="strong">Topics</span>
+    <span class="caret"></span>
+  </button>
+  <div class="topic-dropdown-menu">
+    <div class="topic-badge-list"></div>
+    <div class="topic-add-form">
+      <div class="topic-suggest-wrap">
+        <input type="text" class="topic-repo-input form-control input-sm"
+               placeholder="Add topic" maxlength="50"
+               autocomplete="off"
+               data-path="@context.path"/>
+        <ul class="topic-suggest-list"></ul>
+      </div>
+      <button class="topic-add-btn btn btn-primary btn-sm">Add</button>
+    </div>
+    <div class="topic-error"></div>
+  </div>
+</span>

@@ -29,7 +29,7 @@ div.head {
 }
 
 .topic-summary {
-  color: #666;
+  color: #666666;
   font-size: 13px;
   margin-top: 4px;
 }
@@ -40,7 +40,7 @@ div.topic-list-body {
 
 .topic-empty {
   padding: 20px;
-  color: #999;
+  color: #999999;
 }
 
 .topic-row {
@@ -68,7 +68,7 @@ div.topic-list-body {
 
 .topic-remove-btn {
   padding: 0 2px;
-  color: #c00;
+  color: #cc0000;
 }
 
 .topic-pagination-wrap {
@@ -98,8 +98,8 @@ div.topic-list-body {
   top: 100%;
   left: 0;
   z-index: 1000;
-  background: #fff;
-  border: 1px solid #ccc;
+  background: #ffffff;
+  border: 1px solid #cccccc;
   border-radius: 4px;
   margin: 0;
   padding: 0;
@@ -117,4 +117,77 @@ div.topic-list-body {
 .topic-suggest-item:hover,
 .topic-suggest-item.active {
   background: #f0f4ff;
+}
+
+.topic-dropdown {
+  position: relative;
+  vertical-align: middle;
+}
+
+.topic-dropdown-toggle {
+  background-color: #f1f1f1;
+  border: 1px solid #cccccc;
+  cursor: pointer;
+}
+
+.topic-dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 1000;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  padding: 10px;
+  min-width: 240px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.topic-badge-list {
+  margin-bottom: 8px;
+  min-height: 24px;
+}
+
+.topic-badge {
+  display: inline-block;
+  background: #e8f4fd;
+  border: 1px solid #b3d7f5;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 12px;
+  margin: 2px;
+  color: #0366d6;
+}
+
+.topic-badge-remove {
+  cursor: pointer;
+  margin-left: 4px;
+  color: #999999;
+  font-weight: bold;
+}
+
+.topic-badge-remove:hover {
+  color: #cc0000;
+}
+
+.topic-no-topics {
+  color: #999999;
+  font-size: 12px;
+}
+
+.topic-dropdown-menu .topic-add-form {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.topic-dropdown-menu .topic-suggest-wrap {
+  flex: 1;
+}
+
+.topic-error {
+  color: #cc0000;
+  font-size: 12px;
+  display: none;
 }

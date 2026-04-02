@@ -1,8 +1,12 @@
 import gitbucket.core.controller.Context
 import gitbucket.core.plugin._
+import gitbucket.core.service.RepositoryService.RepositoryInfo
 import io.github.gitbucket.solidbase.migration.LiquibaseMigration
 import io.github.gitbucket.solidbase.model.Version
-import io.github.shinyan1806.topic.controller.TopicController
+import io.github.shinyan1806.topic.controller.{RepositoryTopicController, TopicController}
+import io.github.shinyan1806.topic.html.topicsdropdown
+import play.twirl.api.Html
+
 
 class Plugin extends gitbucket.core.plugin.Plugin {
   override val pluginId: String = "topic"
@@ -14,10 +18,16 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     )
   )
   override val controllers = Seq(
-    "/topics" -> new TopicController()
+    "/topics" -> new TopicController(),
+    "/*"      -> new RepositoryTopicController()
   )
   override val globalMenus: Seq[Context => Option[Link]] = Seq(
     (_: Context) => Some(Link("topics", "Topics", "topics"))
   )
-  override val assetsMappings: Seq[(String, String)] = Seq("/topic" -> "/gitbucket/topic/assets")
+  override val assetsMappings: Seq[(String, String)] = Seq(
+    "/topic" -> "/gitbucket/topic/assets"
+  )
+  override val repositoryHeaders: Seq[(RepositoryInfo, Context) => Option[Html]] = Seq(
+    (repository, context) => Some(topicsdropdown(repository)(context))
+  )
 }
