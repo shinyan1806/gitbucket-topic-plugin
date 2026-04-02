@@ -1,0 +1,162 @@
+@(repositories: Seq[gitbucket.core.service.RepositoryService.RepositoryInfo],
+  repoTopics: Map[(String, String), Seq[io.github.shinyan1806.topic.model.Topic]],
+  allTopics: Seq[io.github.shinyan1806.topic.model.Topic],
+  selectedTopic: Option[String],
+  page: Int,
+  totalCount: Int,
+  pageSize: Int
+)(implicit context: gitbucket.core.controller.Context)
+@import gitbucket.core.view.helpers
+
+@defining(math.ceil(totalCount.toDouble / pageSize).toInt) { totalPages =>
+@defining((s: String) => java.net.URLEncoder.encode(s, "UTF-8")) { encodeTopic =>
+
+@gitbucket.core.html.main("Topics") {
+  <link href="@context.path/plugin-assets/topic/style.css?@helpers.hashQuery" rel="stylesheet">
+  <script src="@context.path/plugin-assets/topic/script.js?@helpers.hashQuery"></script>
+  <div class="content-wrapper main-center">
+    <div class="topic-content">
+      <div class="head">
+        <h1 class="topic-title">Repositories by Topic</h1>
+        <form method="get" action="@context.path/topics" class="topic-filter-form">
+          <input type="hidden" name="topic" value="@selectedTopic.getOrElse("")" class="topic-filter-hidden"/>
+          <div class="btn-group topic-filter-dropdown">
+            <button class="dropdown-toggle btn btn-default" data-toggle="dropdown" type="button" aria-expanded="false">
+              <span class="strong">@selectedTopic.getOrElse("All")</span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="#" class="topic-filter-option" data-topic="">
+                  <i class="octicon @if(selectedTopic.isEmpty) {octicon-check}"></i><span>All</span>
+                </a>
+              </li>
+              @for(topic <- allTopics) {
+                <li>
+                  <a href="#" class="topic-filter-option" data-topic="@topic.name">
+                    <i class="octicon @if(selectedTopic.contains(topic.name)) {octicon-check}"></i><span>@topic.name</span>
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        </form>
+        <div class="topic-summary">
+          @totalCount repositories
+          @selectedTopic.map { t => <span>— filtered by <strong>@t</strong></span> }
+        </div>
+      </div>
+      <div class="content body topic-list-body">
+        @if(repositories.isEmpty) {
+          <div class="topic-empty">No repositories found.</div>
+        }
+        @repositories.map { repo =>
+          <div class="block" data-owner="@repo.owner">
+            <div class="repository-icon">
+              @if(repo.repository.isPrivate) {
+                <i class="mega-octicon octicon-lock"></i>
+              } else {
+                <i class="mega-octicon octicon-repo"></i>
+              }
+            </div>
+            <div class="repository-content">
+              <div class="block-header">
+                <a href="@context.path/@repo.owner/@repo.name">@repo.owner/@repo.name</a>
+              </div>
+              @repo.repository.description.filter(_.nonEmpty).map { desc =>
+                <div>@desc</div>
+              }
+              <div class="topic-row">
+                <span>
+                  @if(repoTopics.getOrElse((repo.owner, repo.name), Nil).nonEmpty) {
+                    @for(topic <- repoTopics((repo.owner, repo.name))) {
+                      <a href="@context.path/topics?topic=@encodeTopic(topic.name)">
+                        <span class="badge badge-info mr-1">@topic.name</span>
+                      </a>
+                    }
+                  } else {
+                    <span class="muted small">No topics</span>
+                  }
+                </span>
+                <button class="btn btn-link btn-xs topic-edit-btn" type="button"
+                        title="Edit topics"
+                        data-owner="@repo.owner" data-name="@repo.name">
+                  <i class="octicon octicon-pencil"></i>
+                </button>
+                <div class="topic-edit-form"
+                     id="topic-edit-@repo.owner-@repo.name">
+                  <form method="post"
+                        action="@context.path/topics/add/@repo.owner/@repo.name"
+                        class="topic-add-form">
+                    <div class="topic-suggest-wrap">
+                      <input type="text" name="topic"
+                             class="form-control input-sm topic-input"
+                             placeholder="Add topic" maxlength="50"
+                             autocomplete="off"
+                             data-path="@context.path"/>
+                      <ul class="topic-suggest-list"></ul>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-xs">Add</button>
+                  </form>
+                  @for(topic <- repoTopics.getOrElse((repo.owner, repo.name), Nil)) {
+                    <form method="post"
+                          action="@context.path/topics/remove/@repo.owner/@repo.name"
+                          class="topic-remove-form">
+                      <input type="hidden" name="topic" value="@topic.name"/>
+                      <span class="badge badge-info mr-1">@topic.name
+                        <button type="submit" class="btn btn-link btn-xs topic-remove-btn" title="Remove">
+                          <i class="octicon octicon-x"></i>
+                        </button>
+                      </span>
+                    </form>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if(totalPages > 1) {
+        <div class="topic-pagination-wrap">
+          <ul class="pagination">
+            @if(page > 1) {
+              <li>
+                <a href="@context.path/topics?@selectedTopic.map(t => s"topic=${encodeTopic(t)}&").getOrElse("")page=@{page - 1}">
+                  &laquo;
+                </a>
+              </li>
+            } else {
+              <li class="disabled"><span>&laquo;</span></li>
+            }
+
+            @for(i <- math.max(1, page - 2) to math.min(totalPages, page + 2)) {
+              @if(i == page) {
+                <li class="active"><span>@i</span></li>
+              } else {
+                <li>
+                  <a href="@context.path/topics?@selectedTopic.map(t => s"topic=${encodeTopic(t)}&").getOrElse("")page=@i">
+                    @i
+                  </a>
+                </li>
+              }
+            }
+
+            @if(page < totalPages) {
+              <li>
+                <a href="@context.path/topics?@selectedTopic.map(t => s"topic=${encodeTopic(t)}&").getOrElse("")page=@{page + 1}">
+                  &raquo;
+                </a>
+              </li>
+            } else {
+              <li class="disabled"><span>&raquo;</span></li>
+            }
+          </ul>
+        </div>
+      }
+
+    </div>
+  </div>
+}
+}
+}
