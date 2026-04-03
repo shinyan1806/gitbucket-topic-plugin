@@ -16,8 +16,11 @@
 - Java 17
 - sbt
 
-### Build（ビルド）
+### Development Commands（開発用コマンド）
 ```bash
+# 静的解析・修正
+sbt codeCheck
+# ビルド
 sbt assembly
 ```
 生成された jar ファイルは `target/scala-2.13` に出力されます。

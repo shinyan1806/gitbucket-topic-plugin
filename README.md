@@ -18,8 +18,12 @@ This plugin is based on [gitbucket/gitbucket-plugin-template](https://github.com
 - Java 17
 - sbt
 
-### Build
+
+### Development Commands
 ```bash
+# Static analysis & fix
+sbt codeCheck
+# Build
 sbt assembly
 ```
 The generated jar file will be output to `target/scala-2.13`.

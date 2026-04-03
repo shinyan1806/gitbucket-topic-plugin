@@ -27,5 +27,7 @@ jobs:
         distribution: temurin
         java-version: 17
     - uses: sbt/setup-sbt@v1
+    - name: Run codeCheck
+      run: sbt codeCheck
     - name: Run tests
       run: sbt test
