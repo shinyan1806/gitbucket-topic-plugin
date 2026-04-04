@@ -1,13 +1,9 @@
-body {
-  overflow-y: scroll;
-}
-
-div.head {
-  padding: 15px 15px 0;
-}
-
 .topic-title {
   margin: 0 0 8px;
+}
+
+.topic-head {
+  padding: 15px 15px 0;
 }
 
 .topic-filter-form {

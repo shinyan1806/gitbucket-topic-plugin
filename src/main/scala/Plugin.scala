@@ -21,7 +21,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     "/*" -> new RepositoryTopicController(),
   )
   override val globalMenus: Seq[Context => Option[Link]] = Seq(
-    (_: Context) => Some(Link("topics", "Topics", "topics")),
+    (_: Context) => Some(Link("topics", "Repositories by Topic", "topics")),
   )
   override val assetsMappings: Seq[(String, String)] = Seq(
     "/topic" -> "/gitbucket/topic/assets",
