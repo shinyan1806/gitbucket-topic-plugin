@@ -7,7 +7,23 @@
 リポジトリにトピックを付けるGitBucketプラグイン
 
 ## Overview（概要）
-リポジトリにトピックを設定して分類・検索しやすくするGitBucketのプラグインです。現在開発中です。
+リポジトリにトピックを設定して分類・検索しやすくするGitBucketのプラグインです。リポジトリトップページへのトピックプルダウンの追加、トピックが紐づくリポジトリの検索ができる一覧画面を提供します。
+
+## ScreenShot（スクリーンショット）
+
+![リポジトリトップページ](images/repository_top_page.png)
+リポジトリトップページに、トピックの追加・編集ができるプルダウンが表示されます。
+
+![トピックによるリポジトリ一覧画面](images/repositories_by_topic_page.png)
+リポジトリを一覧表示し、トピックに紐づくリポジトリが検索できます。この画面からのトピックの追加・編集も可能です。
+
+## Compatibility（互換性）
+プラグインバージョン|GitBucketバージョン
+:---|:---
+1.0.x|4.46.x -
+
+## Contributing（コントリビュート）
+バグの報告、機能追加の提案は大歓迎です。
 
 ## Development（開発）
 本プラグインは [gitbucket/gitbucket-plugin-template](https://github.com/gitbucket/gitbucket-plugin-template) をベースに作成しています。
